@@ -1,16 +1,16 @@
-from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Group(models.Model):
-    title = models.CharField(max_length = 200)
+    title = models.CharField(max_length=200)
     slug = models.SlugField(
-        max_length = 50,
-        unique = True,
-        verbose_name = 'URL'
-    )    
+        max_length=50,
+        unique=True,
+        verbose_name='URL'
+    )
     description = models.TextField()
 
     def __str__(self):
@@ -27,8 +27,8 @@ class Post(models.Model):
     )
     group = models.ForeignKey(
         Group,
-        blank = True,
-        null = True,
-        on_delete = models.SET_NULL,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
         related_name='posts'
     )
