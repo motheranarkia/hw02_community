@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, render
 from .models import Post, Group
 
 POST_COUNT = 10
-# Create your views here.
 
 
 def index(request):
