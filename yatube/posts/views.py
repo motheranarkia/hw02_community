@@ -1,14 +1,13 @@
 from django.shortcuts import get_object_or_404, render
+
 from .models import Post, Group
 
 POST_COUNT = 10
 
 
 def index(request):
-    title = 'Yatube_project'
     posts = Post.objects.order_by('-pub_date')[:POST_COUNT]
     context = {
-        'title': title,
         'posts': posts,
     }
     return render(request, 'posts/index.html', context)
