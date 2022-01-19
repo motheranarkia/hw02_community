@@ -23,6 +23,7 @@
     </header>
     <main> 
       <div class="container py-5">
+        {% block title %}{{ title }}{% endblock %}
         {%block content%}{%endblock content%}
       </div>
     </main>
