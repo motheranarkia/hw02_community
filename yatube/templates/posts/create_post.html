@@ -10,7 +10,7 @@
           <div class="card-header">
                 {% if is_edit %}       
                     Редактировать пост
-                {% if else %}
+                {% else %}
                     Новый пост
                 {% endif %}               
           </div>
@@ -55,6 +55,7 @@
     </div>
   </div>
 </main>
+{% endblock %}
 <footer class="border-top text-center py-3">
   <p>© 2021 Copyright <span style="color:red">Ya</span>tube</p>    
 </footer>
