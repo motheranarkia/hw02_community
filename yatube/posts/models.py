@@ -14,7 +14,7 @@ class Group(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.text
+        return self.title
 
 
 class Post(models.Model):

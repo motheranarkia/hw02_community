@@ -51,7 +51,7 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     # Здесь код запроса к модели и создание словаря контекста
-    post = get_object_or_404(Post, pk=Post.id)
+    post = get_object_or_404(Post, id=post_id)
     author = post.author
     pub_date = post.pub_date
     post_count = post.objects.filter(author=author).count()
@@ -64,25 +64,32 @@ def post_detail(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
-@login_required
+@login_required()
 def create_post(request):
+    template = 'posts/create_post.html'
     form = PostForm(request.POST or None)
-    if (not form.is_valid()) or request.method == "GET":
-        return render(request, 'posts/create_post.html', {'form': form})
-    post = form.save(commit=False)
-    post.author = request.user
-    post.save()
-    return redirect('index')
+    if form.is_valid():
+        new_post = form.save(commit=False)
+        new_post.author = request.user
+        new_post.save()
+        return redirect('posts:profile', username=request.user.username)
+    context = {
+        'form': form,
+        'id_edit': False,
+    }
+    return render(request, template, context)
 
 
-@login_required
+@login_required()
 def post_edit(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    form = PostForm(instance=post)
-    if (not form.is_valid()) or request.method == "GET":
-        return render(request, 'posts/create_post.html', {'form': form})
+    post = get_object_or_404(Post, id=post_id)
     if request.user != post.author:
-        post = form.save(False)
-        post.author = request.user
-        post.save()
-        return redirect('posts:post_detail', post_id=post.id)
+        return redirect('posts:post_detail', post_id=post_id)
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        return redirect('posts:profile', username=request.user.username)
+    context = {
+        'form': form,
+        'is_edit': False,
+    }
+    return render(request, 'posts/create_post.html', context)
